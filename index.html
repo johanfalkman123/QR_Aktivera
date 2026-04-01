@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skapa konto</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="card">
+    <h1>Skapa konto</h1>
+    <p class="subtitle">Fyll i din e-postadress för att slutföra registreringen.</p>
+
+    <div id="error-msg">
+      Ogiltig eller manipulerad QR-kod. Kontakta kundtjänst.
+    </div>
+
+    <form id="account-form" novalidate>
+      <div class="form-group">
+        <label for="customer-number">Kundnummer <span class="lock-icon">🔒</span></label>
+        <input type="text" id="customer-number" name="customerNumber" readonly />
+      </div>
+
+      <div class="form-group">
+        <label for="address">Adress <span class="lock-icon">🔒</span></label>
+        <textarea id="address" name="address" readonly></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-postadress</label>
+        <input type="email" id="email" name="email" placeholder="din@epost.se" required />
+      </div>
+
+      <button type="submit" id="submit-btn">Skapa konto</button>
+    </form>
+
+    <div id="success-msg">
+      Tack! Din ansökan har skickats. Vi hör av oss snart.
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
