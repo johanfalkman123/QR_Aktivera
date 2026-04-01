@@ -55,8 +55,8 @@ async function init() {
     return;
   }
 
-  // Recompute expected signature from the URL parameters
-  const message = `cn=${cn}&addr=${addr}`;
+  // Recompute expected signature — must use URL-encoded values to match generate-url.js
+  const message = `cn=${encodeURIComponent(cn)}&addr=${encodeURIComponent(addr)}`;
   const expected = await computeHmac(SECRET_KEY, message);
 
   if (!safeEqual(expected, sig)) {
