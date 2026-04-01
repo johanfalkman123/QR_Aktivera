@@ -61,6 +61,15 @@ async function init() {
 
   if (!safeEqual(expected, sig)) {
     errorEl.style.display = "block";
+    errorEl.innerHTML = `
+      <strong>Ogiltig signatur.</strong><br><br>
+      <small>
+        <b>Received sig:</b> ${sig}<br>
+        <b>Expected sig:</b> ${expected}<br>
+        <b>Message signed:</b> ${message}<br>
+        <b>cn:</b> ${cn}<br>
+        <b>addr:</b> ${addr}
+      </small>`;
     formEl.style.display = "none";
     return;
   }
