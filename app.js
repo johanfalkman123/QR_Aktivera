@@ -3,7 +3,7 @@
 // determined attacker who reads the source. For this use case that is acceptable.
 const SECRET_KEY = "qr-aktivera-secret-2024-xK9mP3nL";
 
-// Formspree endpoint — replace with your actual Formspree form URL after signing up at formspree.io
+// Formspree endpoint
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xojplvgn";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -28,7 +28,6 @@ async function computeHmac(secret, message) {
     .join("");
 }
 
-// Constant-time string comparison to avoid timing attacks
 function safeEqual(a, b) {
   if (a.length !== b.length) return false;
   let diff = 0;
@@ -38,7 +37,25 @@ function safeEqual(a, b) {
   return diff === 0;
 }
 
-// ── Main ───────────────────────────────────────────────────────────────────
+// ── Button state ───────────────────────────────────────────────────────────
+
+function updateSubmitButton() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const terms = document.getElementById("terms").checked;
+  const btn = document.getElementById("submit-btn");
+
+  const valid = email.length > 0 && password.length >= 8 && terms;
+  btn.disabled = !valid;
+  btn.classList.toggle("active", valid);
+}
+
+["email", "password"].forEach((id) => {
+  document.getElementById(id).addEventListener("input", updateSubmitButton);
+});
+document.getElementById("terms").addEventListener("change", updateSubmitButton);
+
+// ── Signature verification ─────────────────────────────────────────────────
 
 async function init() {
   const params = new URLSearchParams(window.location.search);
@@ -51,6 +68,7 @@ async function init() {
 
   if (!cn || !addr || !sig) {
     errorEl.style.display = "block";
+    errorEl.textContent = "Ogiltig QR-kod. Kontakta kundtjänst.";
     formEl.style.display = "none";
     return;
   }
@@ -74,9 +92,8 @@ async function init() {
     return;
   }
 
-  // Valid signature — populate read-only fields
+  // Valid — populate read-only customer number field
   document.getElementById("customer-number").value = cn;
-  document.getElementById("address").value = addr;
 }
 
 // ── Form submission ────────────────────────────────────────────────────────
@@ -85,15 +102,16 @@ document.getElementById("account-form").addEventListener("submit", async (e) => 
   e.preventDefault();
 
   const email = document.getElementById("email").value.trim();
-  if (!email) return;
+  const password = document.getElementById("password").value;
+  if (!email || password.length < 8) return;
 
   const submitBtn = document.getElementById("submit-btn");
   submitBtn.disabled = true;
+  submitBtn.classList.remove("active");
   submitBtn.textContent = "Skickar...";
 
   const data = {
     customerNumber: document.getElementById("customer-number").value,
-    address: document.getElementById("address").value,
     email,
   };
 
@@ -109,11 +127,13 @@ document.getElementById("account-form").addEventListener("submit", async (e) => 
       document.getElementById("success-msg").style.display = "block";
     } else {
       submitBtn.disabled = false;
+      submitBtn.classList.add("active");
       submitBtn.textContent = "Skapa konto";
       alert("Något gick fel. Försök igen.");
     }
   } catch {
     submitBtn.disabled = false;
+    submitBtn.classList.add("active");
     submitBtn.textContent = "Skapa konto";
     alert("Nätverksfel. Kontrollera din internetanslutning.");
   }

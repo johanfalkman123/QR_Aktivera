@@ -7,36 +7,49 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="card">
-    <h1>Skapa konto</h1>
-    <p class="subtitle">Fyll i din e-postadress för att slutföra registreringen.</p>
+  <div class="logo">BONNIER<br>NEWS</div>
 
-    <div id="error-msg">
-      Ogiltig eller manipulerad QR-kod. Kontakta kundtjänst.
-    </div>
+  <div class="card">
+    <h1>Få tillgång till ditt digitala konto</h1>
+
+    <div id="error-msg"></div>
 
     <form id="account-form" novalidate>
       <div class="form-group">
-        <label for="customer-number">Kundnummer <span class="lock-icon">🔒</span></label>
-        <input type="text" id="customer-number" name="customerNumber" readonly />
+        <label for="customer-number">Ditt kundnummer</label>
+        <input type="text" id="customer-number" name="customerNumber" placeholder="abc12398765" readonly />
       </div>
 
-      <div class="form-group">
-        <label for="address">Adress <span class="lock-icon">🔒</span></label>
-        <textarea id="address" name="address" readonly></textarea>
-      </div>
+      <p class="hint-text">Välj den e-postadress och lösenord som du vill använda till ditt konto/inlogg</p>
 
       <div class="form-group">
         <label for="email">E-postadress</label>
-        <input type="email" id="email" name="email" placeholder="din@epost.se" required />
+        <input type="email" id="email" name="email" autocomplete="email" />
       </div>
 
-      <button type="submit" id="submit-btn">Skapa konto</button>
+      <div class="form-group">
+        <label for="password">Lösenord</label>
+        <input type="password" id="password" name="password" autocomplete="new-password" />
+        <p class="password-hint">Lösenordet måste innehålla minst 8 tecken. &#9432;</p>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="terms" name="terms" />
+        <label for="terms">
+          Jag bekräftar att jag har tagit del av Bonnier News
+          <a href="#" target="_blank">personuppgiftspolicy</a> och
+          <a href="#" target="_blank">användarvillkor</a>
+        </label>
+      </div>
+
+      <button type="submit" id="submit-btn" disabled>Skapa konto</button>
     </form>
 
     <div id="success-msg">
-      Tack! Din ansökan har skickats. Vi hör av oss snart.
+      Tack! Ditt konto håller på att skapas.<br>Vi hör av oss snart.
     </div>
+
+    <a href="#" class="cancel-link" id="cancel-link">Avbryt</a>
   </div>
 
   <script src="app.js"></script>
