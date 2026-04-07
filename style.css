@@ -84,15 +84,6 @@ input[readonly] {
   margin-bottom: 16px;
 }
 
-.password-hint {
-  font-size: 0.78rem;
-  color: #6b7280;
-  margin-top: 6px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
 .checkbox-group {
   display: flex;
   align-items: flex-start;

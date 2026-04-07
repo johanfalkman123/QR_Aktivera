@@ -41,16 +41,15 @@ function safeEqual(a, b) {
 
 function updateSubmitButton() {
   const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
   const terms = document.getElementById("terms").checked;
   const btn = document.getElementById("submit-btn");
 
-  const valid = email.length > 0 && password.length >= 8 && terms;
+  const valid = email.length > 0 && terms;
   btn.disabled = !valid;
   btn.classList.toggle("active", valid);
 }
 
-["email", "password"].forEach((id) => {
+["email"].forEach((id) => {
   document.getElementById(id).addEventListener("input", updateSubmitButton);
 });
 document.getElementById("terms").addEventListener("change", updateSubmitButton);
@@ -102,8 +101,7 @@ document.getElementById("account-form").addEventListener("submit", async (e) => 
   e.preventDefault();
 
   const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  if (!email || password.length < 8) return;
+  if (!email) return;
 
   const submitBtn = document.getElementById("submit-btn");
   submitBtn.disabled = true;
